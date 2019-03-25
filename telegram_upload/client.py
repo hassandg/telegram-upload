@@ -50,7 +50,8 @@ class Client(TelegramClient):
             name = '.'.join(os.path.basename(file).split('.')[:-1])
             thumb = get_file_thumb(file)
             try:
-                self.send_file(entity, file, thumb=thumb,
+                f = self.upload_file(file, part_size_kb=512, progress_callback=progress)
+                self.send_file(entity, f, thumb=thumb,
                                caption=(name[:CAPTION_MAX_LENGTH] + '..') if len(name) > CAPTION_MAX_LENGTH else name,
                                progress_callback=progress, attributes=get_file_attributes(file))
             except Exception:
